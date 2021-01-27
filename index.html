@@ -13,16 +13,14 @@
       el: '#app',
       data() {
         return {
-          test: {
-            a: {
-              b: 1
-            }
-          }
+          test: [{
+            a: 1
+          }]
         }
       }
     })
-    vm._data.test.a = {a: 1}
-    console.log(vm._data.test.a.a)
+    vm._data.test.push({b: 1})
+    vm._data.test[1].b = 100
   </script>
 </body>
 </html>
