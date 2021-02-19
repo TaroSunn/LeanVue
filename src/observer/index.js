@@ -1,31 +1,27 @@
-import { arrayMethods } from "./array"
-
-const toString = Object.prototype.toString
+import { isObject } from "../utils";
+import { arrayMethods } from "./array";
 
 class Observer {
-  constructor(value) {
-
-    Object.defineProperty(value, '__ob__', {
-      enumerable: false,
-      configurable: false,
-      value: this
+  constructor(data) {
+    Object.defineProperty(data, '__ob__', {
+      value: this,
+      enumerable: false
     })
-    
-    if(Array.isArray(value)) {
-      value.__proto__ = arrayMethods
-      this.observeArray(value)
+    // data.__ob__ = this
+    if(Array.isArray(data)) {
+      data.__proto__ = arrayMethods
+      this.observeArray(data)
     } else {
-      this.walk(value)
+      this.walk(data)
     }
   }
-  observeArray(value) {
-    value.forEach(item => {
+  observeArray(data) {
+    data.forEach(item => {
       observe(item)
     })
   }
   walk(data) {
-    let keys = Object.keys(data)
-    keys.forEach(key => {
+    Object.keys(data).forEach(key => {
       defineReactive(data, key, data[key])
     })
   }
@@ -35,27 +31,22 @@ function defineReactive(data, key, value) {
   observe(value)
   Object.defineProperty(data, key, {
     get() {
-      console.log('get')
       return value
     },
-    set(newVal) {
-      if(newVal === value) {
-        return
-      }
-      console.log('set')
-      observe(newVal)
-      value = newVal
+    set(newValue) {
+      observe(newValue)
+      value = newValue
     }
   })
 }
 
 export function observe(data) {
-  if(toString.call(data) !== '[object Object]' && !Array.isArray(data)) {
-    return data
+  if(!isObject(data)) {
+    return
   }
 
   if(data.__ob__) {
-    return data
+    return
   }
-  return new Observer(data)
+  new Observer(data)
 }

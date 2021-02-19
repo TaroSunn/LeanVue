@@ -1,22 +1,19 @@
-let oldArrayProtoMethods = Array.prototype
-
-export let arrayMethods = Object.create(oldArrayProtoMethods)
+let oldArrayPrototype = Array.prototype
+export let arrayMethods = Object.create(oldArrayPrototype)
 
 let methods = [
   'push',
   'pop',
   'shift',
   'unshift',
-  'sort',
-  'splice',
-  'reverse'
+  'reverse',
+  'sore',
+  'splice'
 ]
 
 methods.forEach(method => {
-  arrayMethods[method] = function (...args) {
-    console.log('数组方法')
-    const result = oldArrayProtoMethods[method].apply(this, args)
-
+  arrayMethods[method] = function(...args) {
+    oldArrayPrototype[method].call(this,...args)
     let inserted
     let ob = this.__ob__
     switch (method) {
@@ -33,7 +30,5 @@ methods.forEach(method => {
     if(inserted) {
       ob.observeArray(inserted)
     }
-
-    return result
   } 
 })

@@ -1,15 +1,10 @@
 import { initMixin } from "./init"
-import { lifecycleMixin } from "./lifecycle"
-import { renderMixin } from "./vdom/index"
 
-function Vue(options) {
-  this._init(options)
+function Vue(option) {
+  // 初始化操作
+  this._init(option)
 }
 
 initMixin(Vue)
-
-lifecycleMixin(Vue)
-
-renderMixin(Vue)
 
 export default Vue
