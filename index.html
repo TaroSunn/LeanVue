@@ -6,18 +6,21 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="app">{{name}}</div>
+  <div style="color: red;" id="app" a="a" b="b">
+    hello{{age}}world
+  </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
     let vm = new Vue({
       el: '#app',
       data() {
         return {
-          name: [{a: 1}, { b: 2}]
+          name: [{a: 1}, { b: 2}],
+          age: '123'
         }
       }
     })
-    console.log(vm.name)
+    // console.log(vm.name)
   </script>
 </body>
 </html>
