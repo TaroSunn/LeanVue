@@ -23,6 +23,11 @@
 
     setTimeout(() => {
       vm.name = 'test123'
+      vm.name = '1'
+      vm.name = '2'
+      vm.$nextTick(() => {
+        console.log(vm.$el)
+      })
       // vm._update(vm._render())
     }, 2000);
   </script>
