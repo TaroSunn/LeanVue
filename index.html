@@ -7,7 +7,7 @@
 </head>
 <body>
   <div style="color: red;" id="app" a="a" b="b">
-    hello{{age}}world
+    hello {{name}} world {{name}} {{age}}
   </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
@@ -15,12 +15,16 @@
       el: '#app',
       data() {
         return {
-          name: [{a: 1}, { b: 2}],
+          name: 'test',
           age: '123'
         }
       }
     })
-    // console.log(vm.name)
+
+    setTimeout(() => {
+      vm.name = 'test123'
+      // vm._update(vm._render())
+    }, 2000);
   </script>
 </body>
 </html>
