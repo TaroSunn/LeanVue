@@ -6,6 +6,7 @@ export function patch(oldVnode, vnode) {
 
     parentElm.removeChild(oldVnode)
     
+    return elm
   }
 }
 
@@ -19,6 +20,5 @@ function createElm(vnode) {
   } else {
     vnode.el = document.createTextNode(text)
   }
-  console.log(vnode.el)
   return vnode.el
 }

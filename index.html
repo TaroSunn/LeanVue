@@ -7,7 +7,7 @@
 </head>
 <body>
   <div style="color: red;" id="app" a="a" b="b">
-    hello{{age}}world
+    {{arr}}
   </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
@@ -15,12 +15,23 @@
       el: '#app',
       data() {
         return {
-          name: [{a: 1}, { b: 2}],
-          age: '123'
+          arr: [[1, 2, 3]]
         }
       }
     })
-    // console.log(vm.name)
+
+    // setTimeout(() => {
+    //   vm.name = 'test123'
+    //   vm.name = '1'
+    //   vm.name = '2'
+    //   vm.$nextTick(() => {
+    //     console.log(vm.$el)
+    //   })
+    //   // vm._update(vm._render())
+    // }, 2000);
+    setTimeout(() => {
+      vm.arr[0].push(123)
+    }, 1000);
   </script>
 </body>
 </html>
