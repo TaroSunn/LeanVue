@@ -40,7 +40,6 @@ function dependArray(value) {
 function defineReactive(data, key, value) {
   let childOb = observe(value)
   let dep = new Dep()
-  console.log(childOb)
   Object.defineProperty(data, key, {
     get() {
       if(Dep.target) {
@@ -72,6 +71,5 @@ export function observe(data) {
   if(data.__ob__) {
     return data.__ob__
   }
-  console.log(123)
   return new Observer(data)
 }
