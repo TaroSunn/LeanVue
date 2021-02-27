@@ -7,7 +7,7 @@
 </head>
 <body>
   <div style="color: red;" id="app" a="a" b="b">
-    {{arr}}
+    {{name}} {{fullName}} {{firstName}}
   </div>
   <script src="/dist/umd/vue.js"></script>
   <script>
@@ -15,23 +15,53 @@
       el: '#app',
       data() {
         return {
-          arr: [[1, 2, 3]]
+          name: 'sun',
+          firstName: 'sun',
+          lastName: 'taro'
+        }
+      },
+      // watch: {
+      //   name(newValue, oldValue) {
+      //     console.log(newValue, oldValue)
+      //   },
+      //   name: [
+      //     function (newValue, oldValue) {
+      //       console.log(newValue, oldValue)
+      //     },
+      //     function (a, b) {
+      //       console.log(a, b)
+      //     }
+      //   ]
+      // }
+      computed: {
+        fullName: {
+          get() {
+            console.log('123')
+            return this.firstName + this.lastName
+          },
+          set(newValue) {
+            console.log(newValue)
+          }
         }
       }
     })
+    // vm.$watch('name', function(newValue) {
+    //   console.log(newValue)
+    // })
 
     // setTimeout(() => {
-    //   vm.name = 'test123'
-    //   vm.name = '1'
-    //   vm.name = '2'
-    //   vm.$nextTick(() => {
-    //     console.log(vm.$el)
-    //   })
-    //   // vm._update(vm._render())
-    // }, 2000);
+    //   vm.name = 'test'
+    // }, 1000);
+
+    // console.log(vm.fullName)
+    // console.log(vm.fullName)
+
     setTimeout(() => {
-      vm.arr[0].push(123)
+    vm.firstName = '123'
+
     }, 1000);
+
+    console.log(vm.fullName)
   </script>
 </body>
 </html>
