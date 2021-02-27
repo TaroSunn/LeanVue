@@ -12,6 +12,8 @@ class Watcher {
     this.id = id++
     this.deps = []
     this.depsId = new Set()
+    this.lazy = !!options.lazy
+    this.dirty = options.lazy
     if(typeof exprOrFn === 'string') {
       this.getter = function () {
         let path = exprOrFn.split('.')
@@ -24,18 +26,21 @@ class Watcher {
     } else {
       this.getter = exprOrFn
     }
-
-    this.value = this.get()
+    this.value = this.lazy ? undefined : this.get()
   }
   get() {
     pushTarget(this)
-    const value = this.getter()
+    const value = this.getter.call(this.vm)
     popTarget()
 
     return value
   }
   update() {
-    queueWatcher(this)
+    if(this.lazy) {
+      this.dirty = true
+    } else {
+      queueWatcher(this)
+    }
   }
   run() {
     let newValue = this.get()
@@ -52,6 +57,16 @@ class Watcher {
       this.depsId.add(id)
       this.deps.push(dep)
       dep.addSub(this)
+    }
+  }
+  evaluate() {
+    this.dirty = false
+    this.value = this.get()
+  }
+  depend() {
+    let i = this.deps.length
+    while(i--) {
+      this.deps[i].depend()
     }
   }
 }
