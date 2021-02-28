@@ -6,8 +6,9 @@
   <title>Document</title>
 </head>
 <body>
-  <div style="color: red;" id="app" a="a" b="b">
+  <div id="app" a="a" b="b">
     {{name}}
+    <my-button></my-button>
   </div>
   <script src="/dist/umd/vue.js"></script>
   <!-- <script>
@@ -63,7 +64,7 @@
 
     console.log(vm.fullName)
   </script> -->
-  <script>
+  <!-- <script>
     Vue.mixin({
       beforeCreate() {
         console.log('beforcreate 1')
@@ -83,6 +84,24 @@
       },
       beforeCreate() {
         console.log('3')
+      }
+    })
+  </script> -->
+  <script>
+    Vue.component('my-button', {
+      template: '<button>test<button>'
+    })
+    const vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          name:123
+        }
+      },
+      components: {
+        'my-button': {
+          template: '<button>test 123</button>'
+        }
       }
     })
   </script>
