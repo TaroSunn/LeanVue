@@ -28,9 +28,9 @@ export function initMixin(Vue) {
       let template = options.template
       if(!template && el) {
         template = el.outerHTML
-        let render = compileToFunction(template)
-        options.render = render
       }
+      let render = compileToFunction(template)
+      options.render = render
     }
 
     mountComponent(vm, el)

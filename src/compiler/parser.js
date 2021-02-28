@@ -5,20 +5,19 @@ const startTagOpen = new RegExp(`^<${qnameCapture}`)
 const startTagClose = /^\s*(\/?)>/
 const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`)
 
-function createAstElement(tagName, attrs) {
-  return {
-    tag: tagName,
-    type: 1,
-    children: [],
-    parent: null,
-    attrs
-  }
-}
-
-let root = null
-let stack = []
-
 export function parseHTML(html) {
+  function createAstElement(tagName, attrs) {
+    return {
+      tag: tagName,
+      type: 1,
+      children: [],
+      parent: null,
+      attrs
+    }
+  }
+  
+  let root = null
+  let stack = []
   // 开始标签
   function start(tagName, attributes) {
     let parent = stack[stack.length -1]
