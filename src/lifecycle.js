@@ -15,8 +15,17 @@ export function mountComponent(vm, el) {
     vm._update(vm._render())
   }
   // updateComponent()
-
+  callHook(vm, 'beforeMounted')
   new Watcher(vm, updateComponent, () => {
     console.log('视图更新了')
   }, true)
+}
+
+export function callHook(vm, hook) {
+  let handlers = vm.$options[hook]
+  if(handlers) {
+    for(let i = 0; i < handlers.length; i++) {
+      handlers[i].call(vm)
+    }
+  }
 }
