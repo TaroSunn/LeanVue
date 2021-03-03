@@ -7,8 +7,7 @@
 </head>
 <body>
   <div id="app" a="a" b="b">
-    {{name}}
-    <my-button></my-button>
+    <li>{{msg}}</li>
   </div>
   <script src="/dist/umd/vue.js"></script>
   <!-- <script>
@@ -105,5 +104,19 @@
       }
     })
   </script> -->
+
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data() {
+        return {
+          msg: 'hello'
+        }
+      }
+    })
+    setTimeout(() => {
+      vm.msg = 'test'
+    }, 1000);
+  </script>
 </body>
 </html>

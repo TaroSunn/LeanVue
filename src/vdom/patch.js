@@ -46,6 +46,7 @@ export function patch(oldVnode, vnode) {
       // 新元素没有子元素，旧元素有子元素
       el.innerHTML = ''
     }
+    return el
   }
 }
 
@@ -64,7 +65,22 @@ function pathChildren(el, oldChildren, newChildren) {
   let newEndIndex = newChildren.length - 1
   let newEndVnode = newChildren[newEndIndex]
 
+  const makeIndexByKey = (children) => {
+    return children.reduce((memo, current, index) => {
+      if(current.key) {
+        memo[current.key] = index
+      }
+      return memo
+    }, {})
+  }
+  const keysMap = makeIndexByKey(oldChildren)
+  console.log(keysMap)
   while(oldStartIndex <= oldEndIndex && newStartIndex <= newEndIndex) {
+    if(!oldStartVnode) {
+      oldStartVnode = oldChildren[++oldStartIndex]
+    } else if(!oldEndVnode) {
+      oldEndVnode = oldChildren[--oldEndIndex]
+    }
     if(isSameVnode(oldStartVnode, newStartVnode)) {
       patch(oldStartVnode, newStartVnode)
       oldStartVnode = oldChildren[++oldStartIndex]
@@ -83,6 +99,17 @@ function pathChildren(el, oldChildren, newChildren) {
       el.insertBefore(oldEndVnode.el, oldStartVnode.el)
       oldEndVnode = oldChildren[--oldEndIndex]
       newStartVnode = newChildren[++newStartIndex]
+    } else {
+      let moveIndex = keysMap[newStartVnode.key]
+      if(moveIndex === undefined) {
+        el.insertBefore(createElm(newStartVnode), oldStartVnode.el)
+      } else {
+        let moveNode =  oldChildren[moveIndex]
+        oldChildren[moveIndex] = null
+        el.insertBefore(moveNode.el, oldStartVnode.el)
+        patch(moveNode, newStartVnode)
+      }
+      newStartVnode = newChildren[++newStartIndex]
     }
   }
 
@@ -96,7 +123,7 @@ function pathChildren(el, oldChildren, newChildren) {
 
   if(oldStartIndex <= oldEndIndex) {
     for(let i = oldStartIndex; i <= oldEndIndex; i++) {
-      el.removeChild(oldChildren[i].el)
+      if(oldChildren[i] !== null) el.removeChild(oldChildren[i].el)
     }
   }
 
